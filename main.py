@@ -38,14 +38,18 @@ form = """
 </form>
 """.format(username_error, password_error, verify_error, email_error)
 
-
-      
 class MainPage(webapp2.RequestHandler):
     def get(self):
       
       content = content_header + form + content_footer
       self.response.write(content)
 
+class WelcomePage(webapp2.RequestHandler):
+  def post(self):
+    username = self.request.get('username')
+    password = self.request.get('password')
+    verify = self.request.get('verify')
+    email = self.request.get('email')
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
