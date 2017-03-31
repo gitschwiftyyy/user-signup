@@ -8,28 +8,29 @@ content_header = """
   <title>User Signup</title>
 </head>
 <body>
-<t1>User Signup</t1>
+<h1>User Signup</h1>
 """
 
 content_footer = """
 </body>
 </html>
 """
+
 form = """
 <form action='/welcome' method='post'>
 <label>
   Username <input type='text' name='username'/>
 </label><br>
-<label>
+<br><label>
   Password <input type='password' name='password'/>
 </label><br>
-<label>
+<br><label>
   Re-enter Password <input type='password' name='verify'/>
 </label><br>
-<label>
+<br><label>
   (Optional) Email <input type='text' name='email'/>
 </label><br>
-<input type='submit' value='Submit'/>
+<br><input type='submit' value='Submit'/>
 </form>
 """
 
