@@ -15,27 +15,34 @@ content_footer = """
 </body>
 </html>
 """
+username_error = ""
+password_error = ""
+verify_error = ""
+email_error = ""
 
 form = """
 <form action='/welcome' method='post'>
 <label>
-  Username <input type='text' name='username'/>
+  Username: <input type='text' name='username'/>{0}
 </label><br>
 <br><label>
-  Password <input type='password' name='password'/>
+  Password: <input type='password' name='password'/>{1}
 </label><br>
 <br><label>
-  Re-enter Password <input type='password' name='verify'/>
+  Re-enter Password: <input type='password' name='verify'/>{2}
 </label><br>
 <br><label>
-  (Optional) Email <input type='text' name='email'/>
+  (Optional) Email: <input type='text' name='email'/>{3}
 </label><br>
 <br><input type='submit' value='Submit'/>
 </form>
-"""
+""".format(username_error, password_error, verify_error, email_error)
 
+
+      
 class MainPage(webapp2.RequestHandler):
     def get(self):
+      
       content = content_header + form + content_footer
       self.response.write(content)
 
