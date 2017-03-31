@@ -18,37 +18,34 @@ content_footer = """
 </html>
 """
 
-
-
-
-
-
 form = """
-<form action='/welcome' method='post'>
+<form action='/signup' method='post'>
 <label>
-  Username: <input type='text' name='username'/>{0}
+  Username: <input type='text' name='username' value='%(username)s'/>{0}
 </label><br>
 <br><label>
-  Password: <input type='password' name='password'/>{1}
+  Password: <input type='password' name='password' value='%(password)s'/>{1}
 </label><br>
 <br><label>
-  Re-enter <br>Password: <input type='password' name='verify'/>{2}
+  Re-enter <br>Password: <input type='password' name='verify' value='%(verify)s'/>{2}
 </label><br>
 <br><label>
-  (Optional) Email: <input type='text' name='email'/>{3}
+  (Optional) Email: <input type='text' name='email' value='%(email)s'/>{3}
 </label><br>
 <br><input type='submit' value='Submit'/>
 </form>
 """
 
+thank_you = "<h3>Thank you for signing up!</h3>"
+
 class MainPage(webapp2.RequestHandler):
-    def get(self,username_error = "",password_error = "",verify_error = "",email_error = ""):
+    def get(self, username_error = "", password_error = "", verify_error = "", email_error = "", username = "", password = "", verify = "", email = ""):
       
-      content = content_header + form.format(username_error, password_error, verify_error, email_error) + content_footer
+      content = content_header + form.format(username_error, password_error, verify_error, email_error) % {"username":username, "password":password, "verify":verify, "email":email} + content_footer
       self.response.write(content)
 
-class WelcomePage(webapp2.RequestHandler):
-  def post(self,username_error = "",password_error = "",verify_error = "",email_error = ""):
+class SignupPage(webapp2.RequestHandler):
+  def post(self,username_error = "",password_error = "",verify_error = "",email_error = "", username = "", password = "", verify = "", email = ""):
     username = self.request.get('username')
     username = cgi.escape(username,quote=True)
     password = self.request.get('password')
@@ -67,7 +64,10 @@ class WelcomePage(webapp2.RequestHandler):
     def valid_password(password):
       return password_re.match(password)
     def valid_email(email):
-      return email_re.match(email)
+      if email == "":
+        return True
+      else:
+        return email_re.match(email)
       
       
     if not valid_username(username):
@@ -90,12 +90,15 @@ class WelcomePage(webapp2.RequestHandler):
     
     if not valid_email(email):
       email_error = "<strong>   *Please enter a valid email*</strong>"
-      if email == "":
-        email_error = ""
     
-    content = content_header + form.format(username_error, password_error, verify_error, email_error) + content_footer
+    if valid_username(username) and valid_password(password) and password == verify and valid_email(email):
+      content = content_header + thank_you + content_footer
+    else:
+      content = content_header + form.format(username_error, password_error, verify_error, email_error) % {"username":username, "password":password, "verify":verify, "email":email} + content_footer
     self.response.write(content)
+    
+    
 
 app = webapp2.WSGIApplication([
-    ('/', MainPage),('/welcome', WelcomePage)
+    ('/', MainPage),('/signup', SignupPage)
 ], debug=True)
