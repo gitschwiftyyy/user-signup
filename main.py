@@ -11,6 +11,11 @@ content_header = """
 </head>
 <body>
 <h1>User Signup</h1>
+<style>
+span {
+  color:red;
+}
+</style>
 """
 
 content_footer = """
@@ -70,25 +75,25 @@ class MainPage(webapp2.RequestHandler):
         
         
       if not valid_username(username):
-        username_error = "<strong>   *Username must be 3-20 characters and may contain only numbers, letters, '-', and '_'*</strong>"
+        username_error = "<strong><span>   Username must be 3-20 characters and may contain only numbers, letters, '-', and '_'</span></strong>"
         if username == "":
-          username_error = "<strong>   *Please enter a username*</strong>"
+          username_error = "<strong><span>   Please enter a username</span></strong>"
       
       if not valid_password(password):
-        password_error = "<strong>   *Password must be 3-20 characters in length*</strong>"
+        password_error = "<strong><span>   Password must be 3-20 characters in length</span></strong>"
         if password == "":
-          password_error = "<strong>   *Please enter a password*</strong>"
+          password_error = "<strong><span>   Please enter a password</span></strong>"
       
       if verify != password:
-        verify_error = "<strong>   *Passwords did not match*</strong>"
+        verify_error = "<strong><span>   Passwords did not match</span></strong>"
         if verify == "":
-          verify_error = "<strong>   *Please re-enter your password*</strong>"
+          verify_error = "<strong><span>   Please re-enter your password</span></strong>"
       
       if verify == "":
-        verify_error = "<strong>   *Please re-enter your password*</strong>"
+        verify_error = "<strong><span>   Please re-enter your password</span></strong>"
       
       if not valid_email(email):
-        email_error = "<strong>   *Please enter a valid email*</strong>"
+        email_error = "<strong><span>   Please enter a valid email</span></strong>"
       
       if valid_username(username) and valid_password(password) and password == verify and valid_email(email):
         content = content_header + thank_you + content_footer
