@@ -14,6 +14,7 @@ content_header = """
 <style>
 span {
   color:red;
+  font-weight:bold;
 }
 </style>
 """
@@ -35,7 +36,7 @@ form = """
   Re-enter <br>Password: <input type='password' name='verify' value='%(verify)s'/>{2}
 </label><br>
 <br><label>
-  (Optional) Email: <input type='text' name='email' value='%(email)s'/>{3}
+  (Optional)<br> Email:&emsp; &nbsp; <input type='text' name='email' value='%(email)s'/>{3}
 </label><br>
 <br><input type='submit' value='Submit'/>
 </form>
@@ -75,25 +76,25 @@ class MainPage(webapp2.RequestHandler):
         
         
       if not valid_username(username):
-        username_error = "<strong><span>   Username must be 3-20 characters and may contain only numbers, letters, '-', and '_'</span></strong>"
+        username_error = "<span>   Username must be 3-20 characters and may contain only numbers, letters, '-', and '_'</span>"
         if username == "":
-          username_error = "<strong><span>   Please enter a username</span></strong>"
+          username_error = "<span>   Please enter a username</span>"
       
       if not valid_password(password):
-        password_error = "<strong><span>   Password must be 3-20 characters in length</span></strong>"
+        password_error = "<span>   Password must be 3-20 characters in length</span>"
         if password == "":
-          password_error = "<strong><span>   Please enter a password</span></strong>"
+          password_error = "<span>   Please enter a password</span>"
       
       if verify != password:
-        verify_error = "<strong><span>   Passwords did not match</span></strong>"
+        verify_error = "<span>   Passwords did not match</span>"
         if verify == "":
-          verify_error = "<strong><span>   Please re-enter your password</span></strong>"
+          verify_error = "<span>   Please re-enter your password</span>"
       
       if verify == "":
-        verify_error = "<strong><span>   Please re-enter your password</span></strong>"
+        verify_error = "<span>   Please re-enter your password</span>"
       
       if not valid_email(email):
-        email_error = "<strong><span>   Please enter a valid email</span></strong>"
+        email_error = "<span>   Please enter a valid email</span>"
       
       if valid_username(username) and valid_password(password) and password == verify and valid_email(email):
         content = content_header + thank_you + content_footer
